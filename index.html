@@ -3,24 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart Textbook MVP (Aesthetic: Playful Kawaii-Tech)</title>
-    <!-- Figma styles will go here -->
-    <style>
-        body { font-family: sans-serif; padding: 50px; text-align: center; }
-        h1 { color: #E2D9F3; } /* Initializing with a Figma pastel */
-    </style>
-</head>
-<body>
-    <h1>Welcome to your Interesting Learning Journey</h1>
-    <p>LET'S GO!.</p>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Class 12 Physics | Interactive Dashboard</title>
+    <title>Class 12 Physics | Current Electricity Hub</title>
     <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,21 +12,42 @@
 
     <style>
         :root {
-            --bg-cream: #FAF8F5;
+            --bg-canvas: #FAF8F5;
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --text-dark: #2D2B3A;
+            --text-muted: #6C687A;
+            --border-color: rgba(255, 255, 255, 0.9);
+            
             --lavender-glow: rgba(226, 217, 243, 0.7);
             --periwinkle-glow: rgba(208, 225, 253, 0.7);
             --pink-glow: rgba(252, 221, 236, 0.7);
             --mint-glow: rgba(210, 241, 228, 0.7);
-            --buttercream: #FFF2CC;
             
             --pastel-lavender: #E2D9F3;
             --pastel-periwinkle: #D0E1FD;
             --pastel-pink: #FCDDEC;
             --pastel-mint: #D2F1E4;
+            --pastel-buttercream: #FFF2CC;
+        }
 
-            --text-dark: #2D2B3A;
-            --text-muted: #6C687A;
-            --white: #FFFFFF;
+        /* OLED Dark Theme Variables */
+        body.dark-mode {
+            --bg-canvas: #09090B;
+            --card-bg: #141419;
+            --text-dark: #F3F3F6;
+            --text-muted: #A09DB1;
+            --border-color: #23232C;
+            
+            --lavender-glow: rgba(138, 112, 214, 0.15);
+            --periwinkle-glow: rgba(108, 146, 244, 0.15);
+            --pink-glow: rgba(226, 149, 216, 0.15);
+            --mint-glow: rgba(80, 200, 150, 0.15);
+
+            --pastel-lavender: #261E38;
+            --pastel-periwinkle: #1B263B;
+            --pastel-pink: #341A2D;
+            --pastel-mint: #162E25;
+            --pastel-buttercream: #332B15;
         }
 
         * {
@@ -51,10 +55,11 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
         body {
-            background-color: var(--bg-cream);
+            background-color: var(--bg-canvas);
             color: var(--text-dark);
             min-height: 100vh;
             display: flex;
@@ -62,56 +67,21 @@
             position: relative;
         }
 
-        /* Abstract Organic Background Blobs */
-        .bg-blob {
-            position: absolute;
-            filter: blur(50px);
-            opacity: 0.6;
-            z-index: 0;
-            pointer-events: none;
-            border-radius: 50%;
-        }
-
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--pastel-pink);
-            top: -100px;
-            right: -100px;
-        }
-
-        .blob-2 {
-            width: 350px;
-            height: 350px;
-            background: var(--pastel-lavender);
-            bottom: 50px;
-            left: 200px;
-        }
-
-        .blob-3 {
-            width: 300px;
-            height: 300px;
-            background: var(--pastel-mint);
-            top: 40%;
-            right: 15%;
-        }
-
-        /* App Wrapper */
+        /* App Layout Container */
         .app-container {
             display: flex;
             width: 100%;
             max-width: 1440px;
             margin: 0 auto;
             padding: 24px;
-            gap: 28px;
-            position: relative;
+            gap: 24px;
             z-index: 1;
         }
 
-        /* Sidebar Navigation Rail */
+        /* Left Rail Navigation */
         .sidebar-rail {
             width: 96px;
-            background: rgba(255, 255, 255, 0.85);
+            background: var(--card-bg);
             backdrop-filter: blur(12px);
             border-radius: 32px;
             padding: 32px 16px;
@@ -120,7 +90,7 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 20px 40px -10px var(--lavender-glow);
-            border: 2px solid rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--border-color);
             flex-shrink: 0;
         }
 
@@ -134,7 +104,6 @@
             justify-content: center;
             font-size: 1.5rem;
             color: var(--text-dark);
-            box-shadow: 0 8px 16px var(--pink-glow);
         }
 
         .nav-items {
@@ -154,541 +123,461 @@
             color: var(--text-muted);
             font-size: 1.25rem;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
         }
 
         .nav-btn:hover, .nav-btn.active {
             background: var(--pastel-periwinkle);
             color: var(--text-dark);
-            transform: scale(1.08);
-            box-shadow: 0 10px 20px var(--periwinkle-glow);
+            transform: scale(1.05);
         }
 
-        .nav-btn.active::after {
-            content: '';
-            position: absolute;
-            left: -12px;
-            width: 6px;
-            height: 24px;
-            background: var(--text-dark);
-            border-radius: 0 4px 4px 0;
-        }
-
-        .user-avatar {
-            width: 48px;
-            height: 48px;
-            background: var(--pastel-mint);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .streak-badge {
+            background: var(--pastel-buttercream);
+            border-radius: 20px;
+            padding: 12px 8px;
+            text-align: center;
+            width: 100%;
+            font-size: 0.75rem;
             font-weight: 700;
-            color: var(--text-dark);
-            border: 2px solid white;
-            box-shadow: 0 6px 12px var(--mint-glow);
         }
 
-        /* Main Workspace */
+        /* Main Workspace Layout */
         .main-workspace {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            gap: 28px;
+            gap: 24px;
             min-width: 0;
         }
 
-        /* Hero Banner */
+        /* Hero Greeting Banner */
         .hero-banner {
-            background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(226, 217, 243, 0.4));
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
             border-radius: 32px;
-            padding: 36px 40px;
+            padding: 28px 36px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 20px 40px -10px var(--lavender-glow);
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            position: relative;
-            overflow: hidden;
+            border: 2px solid var(--border-color);
         }
 
         .hero-text h1 {
             font-family: 'Fredoka', sans-serif;
-            font-size: 2rem;
-            color: var(--text-dark);
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
-        }
-
-        .hero-text p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-        }
-
-        .hero-illustrations {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-
-        .float-icon {
-            width: 64px;
-            height: 64px;
-            background: white;
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             font-size: 1.8rem;
-            box-shadow: 0 12px 24px var(--pink-glow);
-            animation: float 4s ease-in-out infinite;
+            margin-bottom: 6px;
         }
 
-        .float-icon:nth-child(2) {
-            animation-delay: 2s;
-            box-shadow: 0 12px 24px var(--periwinkle-glow);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-8px) rotate(4deg); }
-        }
-
-        /* Dashboard Grid Layout */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1.8fr 1.2fr;
-            gap: 28px;
-        }
-
-        /* Squircle Cards */
-        .squircle-card {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(12px);
-            border-radius: 32px;
-            padding: 32px;
-            border: 2px solid rgba(255, 255, 255, 0.9);
-            transition: all 0.3s ease;
-        }
-
-        /* Specific Glow Shadows per Card */
-        .card-active-module {
-            box-shadow: 0 20px 40px -10px var(--periwinkle-glow);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .card-progress {
-            box-shadow: 0 20px 40px -10px var(--pink-glow);
-        }
-
-        .card-formulas {
-            grid-column: span 2;
-            box-shadow: 0 20px 40px -10px var(--mint-glow);
-        }
-
-        /* Card Header Elements */
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .card-title-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .card-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: var(--text-dark);
-        }
-
-        .card-title {
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.35rem;
-            color: var(--text-dark);
-        }
-
-        .badge-pill {
+        .theme-toggle-btn {
             background: var(--pastel-lavender);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 24px;
             color: var(--text-dark);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
             font-weight: 700;
-        }
-
-        /* Subtopics Pill List */
-        .subtopics-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .topic-pill {
-            background: var(--bg-cream);
-            padding: 10px 18px;
-            border-radius: 18px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            border: 1px solid rgba(0,0,0,0.04);
+            cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .topic-pill i {
-            color: #8A70D6;
+        /* Dashboard Core Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
         }
 
-        /* Tactical Squishy Buttons */
-        .btn-squishy {
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Squircle Cards */
+        .squircle-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 28px;
+            border: 2px solid var(--border-color);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .stat-card {
+            border-radius: 24px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1.6rem;
+            margin-top: 4px;
+        }
+
+        /* Buttons */
+        .btn-action {
             background: var(--text-dark);
-            color: var(--white);
+            color: var(--bg-canvas);
             border: none;
-            padding: 16px 32px;
+            padding: 14px 28px;
             border-radius: 50px;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            box-shadow: 0 10px 20px rgba(45, 43, 58, 0.25);
-            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            gap: 8px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
         }
 
-        .btn-squishy:hover {
-            transform: scale(1.03) translateY(-2px);
-            box-shadow: 0 14px 24px rgba(45, 43, 58, 0.35);
+        .btn-action:hover {
+            transform: translateY(-2px);
         }
 
-        .btn-squishy:active {
-            transform: scale(0.97) translateY(0);
-        }
-
-        /* Gamified Wavy Progress Area */
-        .progress-visual {
-            position: relative;
-            padding: 20px 0;
-            text-align: center;
-        }
-
-        .progress-svg {
-            width: 100%;
-            height: 120px;
-        }
-
-        .progress-stat {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 12px 24px;
-            border-radius: 24px;
-            box-shadow: 0 8px 20px var(--pink-glow);
-            font-family: 'Fredoka', sans-serif;
-            font-size: 1.5rem;
-            color: var(--text-dark);
-        }
-
-        /* Formula Flashcard Grid */
+        /* Formula Deck & Flip Cards */
         .formula-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 20px;
-            margin-top: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
         }
 
-        .formula-card {
-            background: white;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.03);
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+        .flip-card {
+            background-color: transparent;
+            height: 140px;
+            perspective: 1000px;
             cursor: pointer;
+        }
+
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 24px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
-            min-height: 140px;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.03);
         }
 
-        .formula-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px var(--mint-glow);
-            border-color: var(--pastel-mint);
-        }
-
-        .formula-label {
+        .flip-card-back {
+            transform: rotateY(180deg);
+            background: var(--pastel-periwinkle);
+            color: #2D2B3A;
             font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
-        .formula-display {
-            font-size: 1.4rem;
-            color: var(--text-dark);
+        /* Tasks & Achievements Column */
+        .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .task-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            accent-color: #8A70D6;
+            cursor: pointer;
+        }
+
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .badge-box {
+            border-radius: 20px;
+            padding: 16px 8px;
             text-align: center;
-            margin: 12px 0;
+            font-size: 0.75rem;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
         }
 
-        .formula-footer {
+        /* Simulation Modal Window */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 999;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: var(--card-bg);
+            border-radius: 32px;
+            width: 100%;
+            max-width: 900px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            padding: 20px 28px;
             display: flex;
             justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
         }
 
-        /* Responsive Layout Breaks */
+        .close-btn {
+            background: var(--pastel-pink);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--text-dark);
+        }
+
+        .sim-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
         @media (max-width: 1024px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
-            .card-formulas {
-                grid-column: span 1;
-            }
+            .dashboard-grid { grid-template-columns: 1fr; }
         }
-
         @media (max-width: 768px) {
-            .app-container {
-                flex-direction: column;
-                padding: 16px;
-            }
-            .sidebar-rail {
-                width: 100%;
-                height: 72px;
-                flex-direction: row;
-                padding: 12px 24px;
-            }
-            .nav-items {
-                flex-direction: row;
-                justify-content: center;
-            }
-            .hero-illustrations {
-                display: none;
-            }
+            .app-container { flex-direction: column; }
+            .sidebar-rail { width: 100%; height: 72px; flex-direction: row; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Ambient Floating Blobs -->
-    <div class="bg-blob blob-1"></div>
-    <div class="bg-blob blob-2"></div>
-    <div class="bg-blob blob-3"></div>
-
     <div class="app-container">
 
-        <!-- Sidebar Navigation Rail -->
+        <!-- Sidebar Rail -->
         <aside class="sidebar-rail">
             <div class="brand-logo">
-                <i class="fa-solid fa-atom"></i>
+                <i class="fa-solid fa-bolt"></i>
             </div>
-
             <nav class="nav-items">
-                <button class="nav-btn active" title="Dashboard">
-                    <i class="fa-solid fa-house-chimney"></i>
-                </button>
-                <button class="nav-btn" title="Physics Chapters">
-                    <i class="fa-solid fa-book-open"></i>
-                </button>
-                <button class="nav-btn" title="Daily Tasks">
-                    <i class="fa-solid fa-list-check"></i>
-                </button>
-                <button class="nav-btn" title="Achievements">
-                    <i class="fa-solid fa-award"></i>
-                </button>
+                <button class="nav-btn active"><i class="fa-solid fa-house-chimney"></i></button>
+                <button class="nav-btn"><i class="fa-solid fa-book-open"></i></button>
+                <button class="nav-btn"><i class="fa-solid fa-list-check"></i></button>
+                <button class="nav-btn"><i class="fa-solid fa-award"></i></button>
             </nav>
-
-            <div class="user-avatar" title="Student Profile">
-                <span>PH</span>
+            <div class="streak-badge">
+                🔥 14 Days
             </div>
         </aside>
 
-        <!-- Main Workspace -->
+        <!-- Main Content Area -->
         <main class="main-workspace">
 
-            <!-- Hero Greeting Banner -->
+            <!-- Hero Header Banner -->
             <header class="hero-banner">
                 <div class="hero-text">
-                    <h1>Welcome back! Ready to ace Class 12 Physics today?</h1>
-                    <p>Track your chapter mastery, formulas, and daily problem sets.</p>
+                    <h1 id="user-greeting">Welcome back, Student! 👋</h1>
+                    <p style="color: var(--text-muted);">NCERT Class 12 Physics • Chapter 3: Current Electricity</p>
                 </div>
-                <div class="hero-illustrations">
-                    <div class="float-icon" style="color: #E295D8;">
-                        <i class="fa-solid fa-atom"></i>
-                    </div>
-                    <div class="float-icon" style="color: #6C92F4;">
-                        <i class="fa-solid fa-magnet"></i>
-                    </div>
-                </div>
+                <button class="theme-toggle-btn" onclick="toggleOLEDTheme()">
+                    <i class="fa-solid fa-moon"></i> OLED Mode
+                </button>
             </header>
 
-            <!-- Main Dashboard Grid -->
             <div class="dashboard-grid">
 
-                <!-- Active Learning Card -->
-                <section class="squircle-card card-active-module">
-                    <div>
-                        <div class="card-header">
-                            <div class="card-title-group">
-                                <div class="card-icon" style="background: var(--pastel-periwinkle);">
-                                    <i class="fa-solid fa-bolt"></i>
-                                </div>
-                                <h2 class="card-title">Current Module: Electrostatics</h2>
+                <!-- Left Column -->
+                <div class="left-column">
+
+                    <!-- Stats Bar -->
+                    <div class="stats-row">
+                        <div class="stat-card" style="background: var(--pastel-lavender);">
+                            <span style="font-size: 0.8rem; font-weight: 700;">Questions Solved</span>
+                            <h3>847</h3>
+                        </div>
+                        <div class="stat-card" style="background: var(--pastel-mint);">
+                            <span style="font-size: 0.8rem; font-weight: 700;">Mock Tests</span>
+                            <h3>12</h3>
+                        </div>
+                        <div class="stat-card" style="background: var(--pastel-pink);">
+                            <span style="font-size: 0.8rem; font-weight: 700;">Avg Accuracy</span>
+                            <h3>86%</h3>
+                        </div>
+                    </div>
+
+                    <!-- Active Chapter Card with Live Simulation Launch -->
+                    <section class="squircle-card" style="box-shadow: 0 20px 40px -10px var(--periwinkle-glow);">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px;">
+                            <div>
+                                <span style="background: var(--pastel-periwinkle); padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">Chapter 3 Focus</span>
+                                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.5rem; margin-top: 8px;">Current Electricity</h2>
                             </div>
-                            <span class="badge-pill">Unit 1</span>
+                            <button class="btn-action" onclick="openSimulation()">
+                                <i class="fa-solid fa-play"></i> Launch Live PhET Simulation
+                            </button>
                         </div>
 
-                        <p style="color: var(--text-muted); line-height: 1.5;">
-                            Study fundamental interactions between stationary electric charges, field potentials, and flux theorems.
+                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5; margin-bottom: 20px;">
+                            Master electric current, drift velocity, Ohm's law, resistivity, temperature dependence, and Kirchhoff's loop rules.
                         </p>
 
-                        <div class="subtopics-list">
-                            <div class="topic-pill">
-                                <i class="fa-solid fa-circle-check"></i> Electric Charges & Fields
+                        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                            <span style="background: var(--pastel-mint); padding: 8px 16px; border-radius: 16px; font-size: 0.85rem; font-weight: 600;">✓ Ohm's Law</span>
+                            <span style="background: var(--pastel-mint); padding: 8px 16px; border-radius: 16px; font-size: 0.85rem; font-weight: 600;">✓ Resistivity & Drift</span>
+                            <span style="background: var(--pastel-buttercream); padding: 8px 16px; border-radius: 16px; font-size: 0.85rem; font-weight: 600;">⚡ Kirchhoff's Rules</span>
+                        </div>
+                    </section>
+
+                    <!-- Interactive Formula Flashcards (Tap to Flip) -->
+                    <section class="squircle-card" style="box-shadow: 0 20px 40px -10px var(--mint-glow);">
+                        <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; margin-bottom: 4px;">Formula Flashcards</h2>
+                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 12px;">Tap any card to flip and inspect variables & units.</p>
+
+                        <div class="formula-grid">
+                            <!-- Card 1 -->
+                            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Ohm's Law</span>
+                                        <h3 style="font-size: 1.4rem; margin-top: 8px;">V = I · R</h3>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        V = Voltage (Volts)<br>
+                                        I = Current (Amperes)<br>
+                                        R = Resistance (Ohms Ω)
+                                    </div>
+                                </div>
                             </div>
-                            <div class="topic-pill">
-                                <i class="fa-solid fa-circle-check"></i> Gauss's Law Applications
+
+                            <!-- Card 2 -->
+                            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Resistivity</span>
+                                        <h3 style="font-size: 1.4rem; margin-top: 8px;">R = ρ (L / A)</h3>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        ρ = Resistivity (Ω·m)<br>
+                                        L = Conductor Length<br>
+                                        A = Cross-section Area
+                                    </div>
+                                </div>
                             </div>
-                            <div class="topic-pill">
-                                <i class="fa-regular fa-circle"></i> Electrostatic Potential
+
+                            <!-- Card 3 -->
+                            <div class="flip-card" onclick="this.classList.toggle('flipped')">
+                                <div class="flip-card-inner">
+                                    <div class="flip-card-front">
+                                        <span style="font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;">Electric Power</span>
+                                        <h3 style="font-size: 1.4rem; margin-top: 8px;">P = V · I = I²R</h3>
+                                    </div>
+                                    <div class="flip-card-back">
+                                        P = Power Dissipated (Watts)<br>
+                                        Energy rate in resistor
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </section>
 
-                    <div style="margin-top: 20px;">
-                        <button class="btn-squishy" onclick="alert('Resuming Chapter 1: Electrostatics!')">
-                            Resume Study <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                    </div>
-                </section>
+                </div>
 
-                <!-- Gamified Progress Tracker -->
-                <section class="squircle-card card-progress">
-                    <div class="card-header">
-                        <div class="card-title-group">
-                            <div class="card-icon" style="background: var(--pastel-pink);">
-                                <i class="fa-solid fa-chart-line"></i>
-                            </div>
-                            <h2 class="card-title">Course Progress</h2>
-                        </div>
-                    </div>
+                <!-- Right Column (Tasks & Badges) -->
+                <div class="right-column">
 
-                    <div class="progress-visual">
-                        <!-- Wavy Track Path -->
-                        <svg class="progress-svg" viewBox="0 0 300 100">
-                            <path d="M 10 50 Q 75 10, 150 50 T 290 50" fill="none" stroke="#FCDDEC" stroke-width="16" stroke-linecap="round"/>
-                            <path d="M 10 50 Q 75 10, 150 50 T 220 38" fill="none" stroke="#2D2B3A" stroke-width="16" stroke-linecap="round"/>
-                        </svg>
-                        <div class="progress-stat">
-                            <span>74% Complete</span>
-                        </div>
-                    </div>
-
-                    <p style="text-align: center; font-size: 0.9rem; color: var(--text-muted); margin-top: 10px;">
-                        🎉 3 chapters away from completing Term 1 syllabus!
-                    </p>
-                </section>
-
-                <!-- Interactive Formula Deck -->
-                <section class="squircle-card card-formulas">
-                    <div class="card-header">
-                        <div class="card-title-group">
-                            <div class="card-icon" style="background: var(--pastel-mint);">
-                                <i class="fa-solid fa-square-root-variable"></i>
-                            </div>
-                            <h2 class="card-title">Interactive Formula Deck</h2>
-                        </div>
-                        <span class="badge-pill" style="background: var(--pastel-mint);">Tactile Flashcards</span>
-                    </div>
-
-                    <div id="formula-container" class="formula-grid">
-
-                        <!-- Formula Card 1 -->
-                        <div class="formula-card">
-                            <span class="formula-label">Electric Field Intensity</span>
-                            <div class="formula-display">
-                                <math display="math">
-                                    <mi>E</mi>
-                                    <mo>=</mo>
-                                    <mfrac>
-                                        <mi>F</mi>
-                                        <mi>q</mi>
-                                    </mfrac>
-                                </math>
-                            </div>
-                            <div class="formula-footer">
-                                <span>Unit: N/C</span>
-                                <span>Vector Quantity</span>
-                            </div>
+                    <!-- Daily Tasks with Live XP Counter -->
+                    <section class="squircle-card" style="box-shadow: 0 20px 40px -10px var(--pink-glow);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                            <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.2rem;">Daily Plan</h2>
+                            <span id="xp-counter" style="background: var(--pastel-pink); padding: 4px 10px; border-radius: 12px; font-weight: 700; font-size: 0.8rem;">50 / 195 XP</span>
                         </div>
 
-                        <!-- Formula Card 2 -->
-                        <div class="formula-card">
-                            <span class="formula-label">Electric Potential</span>
-                            <div class="formula-display">
-                                <math display="math">
-                                    <mi>V</mi>
-                                    <mo>=</mo>
-                                    <mfrac>
-                                        <mi>W</mi>
-                                        <mi>q</mi>
-                                    </mfrac>
-                                </math>
+                        <div class="task-item">
+                            <input type="checkbox" checked onclick="addXP(0)">
+                            <div style="font-size: 0.85rem;">Solve 10 MCQs on Drift Velocity</div>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox" onclick="addXP(30)">
+                            <div style="font-size: 0.85rem;">Run PhET Circuit Simulation</div>
+                        </div>
+                        <div class="task-item">
+                            <input type="checkbox" onclick="addXP(40)">
+                            <div style="font-size: 0.85rem;">Derive Kirchhoff's Junction Rule</div>
+                        </div>
+                    </section>
+
+                    <!-- Achievements -->
+                    <section class="squircle-card">
+                        <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.2rem; margin-bottom: 12px;">Badges</h2>
+                        <div class="badge-grid">
+                            <div class="badge-box" style="background: var(--pastel-buttercream);">
+                                <i class="fa-solid fa-bolt" style="font-size: 1.2rem; color: #D4A017;"></i>
+                                Speed Solver
                             </div>
-                            <div class="formula-footer">
-                                <span>Unit: Volt (V)</span>
-                                <span>Scalar Quantity</span>
+                            <div class="badge-box" style="background: var(--pastel-pink);">
+                                <i class="fa-solid fa-fire" style="font-size: 1.2rem; color: #E295D8;"></i>
+                                On Fire!
+                            </div>
+                            <div class="badge-box" style="background: var(--pastel-periwinkle);">
+                                <i class="fa-solid fa-microchip" style="font-size: 1.2rem; color: #6C92F4;"></i>
+                                Lab Wizard
                             </div>
                         </div>
+                    </section>
 
-                        <!-- Formula Card 3 -->
-                        <div class="formula-card">
-                            <span class="formula-label">Coulomb's Law</span>
-                            <div class="formula-display">
-                                <math display="math">
-                                    <mi>F</mi>
-                                    <mo>=</mo>
-                                    <mi>k</mi>
-                                    <mo>·</mo>
-                                    <mfrac>
-                                        <mrow>
-                                            <mo>|</mo><msub><mi>q</mi><mn>1</mn></msub><msub><mi>q</mi><mn>2</mn></msub><mo>|</mo>
-                                        </mrow>
-                                        <msup><mi>r</mi><mn>2</mn></msup>
-                                    </mfrac>
-                                </math>
-                            </div>
-                            <div class="formula-footer">
-                                <span>Electrostatic Force</span>
-                                <span>Inverse Square</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </section>
+                </div>
 
             </div>
 
@@ -696,6 +585,61 @@
 
     </div>
 
+    <!-- Live PhET Interactive HTML5 Simulation Modal -->
+    <div id="sim-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fa-solid fa-flask" style="color: #8A70D6;"></i>
+                    <h3 style="font-family: 'Fredoka', sans-serif;">PhET Interactive Lab: Ohm's Law & Circuit Kit</h3>
+                </div>
+                <button class="close-btn" onclick="closeSimulation()">✕</button>
+            </div>
+            <!-- Embedded Open-Source PhET HTML5 Simulation -->
+            <iframe id="phet-iframe" class="sim-iframe" src="" allowfullscreen></iframe>
+        </div>
+    </div>
+
+    <script>
+        // Personalized Student Greeting
+        window.addEventListener('DOMContentLoaded', () => {
+            let storedName = localStorage.getItem('nstark_student_name');
+            if (!storedName) {
+                storedName = prompt("Welcome! Please enter your name to personalize your workspace:", "Niharika");
+                if (storedName) {
+                    localStorage.setItem('nstark_student_name', storedName);
+                } else {
+                    storedName = "Student";
+                }
+            }
+            document.getElementById('user-greeting').innerText = `Welcome back, ${storedName}! 👋`;
+        });
+
+        // OLED Dark Mode Toggle Function
+        function toggleOLEDTheme() {
+            document.body.classList.toggle('dark-mode');
+        }
+
+        // Live PhET HTML5 Simulation Loader
+        function openSimulation() {
+            const iframe = document.getElementById('phet-iframe');
+            // Embedding PhET HTML5 Circuit Construction Kit Simulation
+            iframe.src = "https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_all.html";
+            document.getElementById('sim-modal').style.display = 'flex';
+        }
+
+        function closeSimulation() {
+            document.getElementById('sim-modal').style.display = 'none';
+            document.getElementById('phet-iframe').src = ""; // Stop simulation on exit
+        }
+
+        // Live Task XP Counter
+        let currentXP = 50;
+        function addXP(amount) {
+            currentXP += amount;
+            document.getElementById('xp-counter').innerText = `${currentXP} / 195 XP`;
+        }
+    </script>
+
 </body>
 </html>
-

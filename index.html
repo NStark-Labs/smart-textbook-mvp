@@ -15,3 +15,228 @@
     <p>Waiting for final design transmission from Figma.</p>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Textbook MVP | NStark-Labs</title>
+    <style>
+        :root {
+            --bg-cream: #FAF8F5;
+            --lavender: #E2D9F3;
+            --periwinkle: #D0E1FD;
+            --pink: #FCDDEC;
+            --mint: #D2F1E4;
+            --buttercream: #FFF2CC;
+            --text-dark: #2D2B3A;
+            --text-muted: #6C687A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .workspace {
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Organic Squircle Cards */
+        .squircle-card {
+            border-radius: 36px;
+            padding: 32px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .squircle-card:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Header Card */
+        .header-card {
+            background-color: var(--lavender);
+            box-shadow: 0 20px 40px -15px rgba(226, 217, 243, 0.7);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .badge {
+            background: white;
+            color: var(--text-dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Grid Layout */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Module Cards */
+        .module-card {
+            background-color: var(--periwinkle);
+            box-shadow: 0 20px 40px -15px rgba(208, 225, 253, 0.7);
+        }
+
+        .sidebar-card {
+            background-color: var(--pink);
+            box-shadow: 0 20px 40px -15px rgba(252, 221, 236, 0.7);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mint-card {
+            background-color: var(--mint);
+            box-shadow: 0 20px 40px -15px rgba(210, 241, 228, 0.7);
+        }
+
+        /* Chunky Squishy Buttons */
+        .btn-pill {
+            background-color: var(--text-dark);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 15px rgba(45, 43, 58, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .btn-pill:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 20px rgba(45, 43, 58, 0.3);
+        }
+
+        .btn-pill:active {
+            transform: scale(0.97);
+        }
+
+        /* Progress Bar */
+        .progress-track {
+            background: white;
+            height: 16px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 15px;
+            padding: 3px;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #FCDDEC, #E2D9F3);
+            height: 100%;
+            width: 65%;
+            border-radius: 20px;
+        }
+
+        .formula-box {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 16px;
+            border-radius: 20px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            margin-top: 12px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="workspace">
+        
+        <!-- Header -->
+        <div class="squircle-card header-card">
+            <div>
+                <span class="badge">✦ NStark-Labs Proprietary</span>
+                <h1>Smart Textbook Workstation</h1>
+                <p class="subtitle">Class 12 Physics • Interactive Learning Interface</p>
+            </div>
+            <button class="btn-pill" onclick="alert('System Calibrated!')">Launch Unit</button>
+        </div>
+
+        <!-- Main Grid Layout -->
+        <div class="main-grid">
+            
+            <!-- Main Content Area -->
+            <div class="squircle-card module-card">
+                <h2>Active Chapter: Electrostatics</h2>
+                <p style="margin-top: 10px; line-height: 1.6; color: var(--text-muted);">
+                    Welcome to the interactive module. Explore electric field configurations, charges, and flux density with real-time feedback.
+                </p>
+                
+                <div class="formula-box">
+                    Coulomb's Law: F = k • (|q₁q₂| / r²)
+                </div>
+
+                <div style="margin-top: 25px;">
+                    <span style="font-weight: 600; font-size: 0.9rem;">Module Progress: 65%</span>
+                    <div class="progress-track">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Quick Actions -->
+            <div class="squircle-card sidebar-card">
+                <h3>Lab Controls</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Quick access to interactive simulations and test banks.</p>
+                <button class="btn-pill" style="background-color: white; color: var(--text-dark); width: 100%;">Practice Quiz</button>
+                <button class="btn-pill" style="background-color: var(--buttercream); color: var(--text-dark); width: 100%;">Formula Sheet</button>
+            </div>
+
+        </div>
+
+        <!-- Secondary Banner -->
+        <div class="squircle-card mint-card">
+            <h3>✨ AI Assistant Status</h3>
+            <p style="margin-top: 6px; color: var(--text-muted);">Jarvis Core is standby-ready to process problem sets and interactive queries.</p>
+        </div>
+
+    </div>
+
+</body>
+</html>

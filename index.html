@@ -147,12 +147,37 @@
             align-items: center;
             box-shadow: 0 20px 40px -10px var(--lavender-glow);
             border: 2px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 16px;
         }
 
         .hero-text h1 {
             font-family: 'Fredoka', sans-serif;
             font-size: 1.8rem;
             margin-bottom: 6px;
+        }
+
+        .user-name-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .name-input {
+            padding: 8px 14px;
+            border-radius: 16px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-canvas);
+            color: var(--text-dark);
+            font-weight: 600;
+            outline: none;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .theme-toggle-btn {
@@ -433,6 +458,21 @@
             color: var(--text-dark);
         }
 
+        .quiz-opt-btn {
+            background: var(--bg-canvas);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 16px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .quiz-opt-btn:hover {
+            background: var(--pastel-periwinkle);
+        }
+
         @media (max-width: 1024px) {
             .dashboard-grid { grid-template-columns: 1fr; }
         }
@@ -469,10 +509,16 @@
                 <div class="hero-text">
                     <h1 id="user-greeting">Welcome back, Student! 👋</h1>
                     <p style="color: var(--text-muted);">NCERT Class 12 Physics • Chapter 3: Current Electricity</p>
+                    <div class="user-name-wrapper">
+                        <input type="text" id="name-input-field" class="name-input" placeholder="Enter your name...">
+                        <button class="btn-action" style="padding: 6px 16px; font-size: 0.8rem;" onclick="updateStudentName()">Save Name</button>
+                    </div>
                 </div>
-                <button class="theme-toggle-btn" onclick="toggleOLEDTheme()">
-                    <i class="fa-solid fa-moon"></i> OLED Mode
-                </button>
+                <div class="header-actions">
+                    <button class="theme-toggle-btn" onclick="toggleOLEDTheme()">
+                        <i class="fa-solid fa-moon"></i> OLED Mode
+                    </button>
+                </div>
             </header>
 
             <div class="dashboard-grid">
@@ -497,7 +543,7 @@
 
                     <!-- All NCERT Topics Grid -->
                     <section class="squircle-card" style="box-shadow: 0 20px 40px -10px var(--periwinkle-glow);">
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
                             <div>
                                 <span style="background: var(--pastel-periwinkle); padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">NCERT Chapter Syllabus</span>
                                 <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.5rem; margin-top: 6px;">Select a Topic to Study</h2>
@@ -711,16 +757,32 @@
     </div>
 
     <script>
+        let xp = 0;
+        let completedQuestions = 0;
+        let totalQuestions = 0;
+        let correctAnswers = 0;
+
         window.addEventListener('DOMContentLoaded', () => {
-            let storedName = localStorage.getItem('nstark_student_name');
-            if (!storedName) {
-                storedName = prompt("Welcome! Please enter your name to personalize your workspace:", "Niharika");
-                if (storedName) localStorage.setItem('nstark_student_name', storedName);
-                else storedName = "Student";
+            let storedName = localStorage.getItem('smart_textbook_student_name');
+            if (storedName) {
+                document.getElementById('user-greeting').innerText = `Welcome back, ${storedName}! 👋`;
+                document.getElementById('name-input-field').value = storedName;
+            } else {
+                document.getElementById('user-greeting').innerText = `Welcome back, Student! 👋`;
             }
-            document.getElementById('user-greeting').innerText = `Welcome back, ${storedName}! 👋`;
             loadQuestion();
         });
+
+        function updateStudentName() {
+            let nameInput = document.getElementById('name-input-field').value.trim();
+            if (nameInput) {
+                localStorage.setItem('smart_textbook_student_name', nameInput);
+                document.getElementById('user-greeting').innerText = `Welcome back, ${nameInput}! 👋`;
+            } else {
+                localStorage.removeItem('smart_textbook_student_name');
+                document.getElementById('user-greeting').innerText = `Welcome back, Student! 👋`;
+            }
+        }
 
         function toggleOLEDTheme() {
             document.body.classList.toggle('dark-mode');
@@ -736,7 +798,7 @@
                     <h4>Ohm's Law</h4>
                     <p>At constant physical conditions (like temperature), the current I flowing through a conductor is proportional to potential difference V across it:</p>
                     <p style="background:var(--pastel-mint); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">V = I · R</p>
-                    <p>Where R is resistance, measured in Ohms (Ω). $R = \rho \frac{L}{A}$.</p>
+                    <p>Where R is resistance, measured in Ohms (Ω). R = ρ (L / A).</p>
                 `
             },
             2: {
@@ -775,137 +837,164 @@
                 title: "3.6 Electrical Energy & Power",
                 content: `
                     <p>Energy dissipated in a resistor per unit time is power:</p>
-                    <p style="background:var(--pastel-lavender); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">P = V · I = I² R = V² / R</p>
-                    <p>Unit: Watt (W) or Joule/second (J/s).</p>
+                    <p style="background:var(--pastel-lavender); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">P = V · I = I² R = V² / R  (Watts, W)</p>
                 `
             },
             6: {
                 title: "3.7 Cells, EMF & Internal Resistance",
                 content: `
-                    <p>Electromotive force (ε) is the open-circuit potential difference. When supplying current I:</p>
-                    <p style="background:var(--pastel-mint); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">V = ε - I r</p>
-                    <p>Where r is the cell's internal resistance and V is terminal potential difference.</p>
+                    <p>Electromotive Force (ε) is the potential difference between cell terminals when no current is drawn.</p>
+                    <p style="background:var(--pastel-pink); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">V = ε - I · r</p>
+                    <p>Where <i>r</i> is the internal resistance of the cell.</p>
                 `
             },
             7: {
                 title: "3.8 Kirchhoff's Loop & Junction Rules",
                 content: `
-                    <h4>1. Junction Rule (Charge Conservation):</h4>
-                    <p>Sum of currents entering any junction equals sum leaving it: Σ I = 0.</p>
-                    <h4>2. Loop Rule (Energy Conservation):</h4>
-                    <p>Algebraic sum of potential changes around any closed loop is zero: Σ ΔV = 0.</p>
+                    <p><b>1. Junction Rule:</b> ∑ I = 0 (Conservation of charge)</p>
+                    <p><b>2. Loop Rule:</b> ∑ ΔV = 0 (Conservation of energy)</p>
                 `
             },
             8: {
                 title: "3.9 Wheatstone Bridge Principle",
                 content: `
-                    <p>An arrangement of four resistors R1, R2, R3, R4. Under zero galvanometer deflection (balanced bridge):</p>
-                    <p style="background:var(--pastel-periwinkle); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">R1 / R2 = R3 / R4</p>
+                    <p>An arrangement of four resistors used to measure unknown resistance.</p>
+                    <p style="background:var(--pastel-mint); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">R1 / R2 = R3 / R4</p>
+                    <p>When balanced, galvanometer current I_g = 0.</p>
                 `
             }
         };
 
+        const questions = [
+            {
+                q: "What is the SI unit of Current Density (J)?",
+                opts: ["A / m²", "A · m", "Ω · m", "Volt / m"],
+                ans: 0
+            },
+            {
+                q: "If temperature of a semiconductor increases, its resistivity:",
+                opts: ["Increases", "Decreases", "Remains Constant", "Becomes Zero"],
+                ans: 1
+            },
+            {
+                q: "The balance condition for a Wheatstone bridge is:",
+                opts: ["R1 · R2 = R3 · R4", "R1 / R2 = R3 / R4", "R1 + R2 = R3 + R4", "R1 - R2 = R3 - R4"],
+                ans: 1
+            }
+        ];
+
+        let currentQIndex = 0;
+
+        function loadQuestion() {
+            if (currentQIndex >= questions.length) {
+                document.getElementById('quiz-box').innerHTML = "<p><b>🎉 Quiz Completed! Great job!</b></p>";
+                return;
+            }
+            let qData = questions[currentQIndex];
+            document.getElementById('quiz-question').innerText = qData.q;
+            let optsHTML = "";
+            qData.opts.forEach((opt, idx) => {
+                optsHTML += `<button class="quiz-opt-btn" onclick="checkAnswer(${idx})">${opt}</button>`;
+            });
+            document.getElementById('quiz-options').innerHTML = optsHTML;
+        }
+
+        function checkAnswer(selectedIdx) {
+            totalQuestions++;
+            completedQuestions++;
+            if (selectedIdx === questions[currentQIndex].ans) {
+                correctAnswers++;
+                xp += 50;
+                alert("Correct! +50 XP");
+            } else {
+                alert("Incorrect!");
+            }
+            document.getElementById('stat-completed').innerText = `${completedQuestions} / 5`;
+            document.getElementById('stat-xp').innerText = `${xp} XP`;
+            let accuracy = Math.round((correctAnswers / totalQuestions) * 100);
+            document.getElementById('stat-accuracy').innerText = `${accuracy}%`;
+
+            currentQIndex++;
+            loadQuestion();
+        }
+
         function openTopic(id) {
-            document.getElementById('modal-topic-title').innerText = ncertTopics[id].title;
-            document.getElementById('modal-topic-content').innerHTML = ncertTopics[id].content;
-            document.getElementById('topic-modal').style.display = 'flex';
+            let topic = ncertTopics[id];
+            if (topic) {
+                document.getElementById('modal-topic-title').innerText = topic.title;
+                document.getElementById('modal-topic-content').innerHTML = topic.content;
+                document.getElementById('topic-modal').style.display = 'flex';
+            }
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
         }
 
-        const quizData = [
-            { q: "What is the SI unit of resistivity (ρ)?", opts: ["Ω", "Ω·m", "Ω/m", "Mho"], ans: 1 },
-            { q: "How does drift velocity vary with applied electric field E?", opts: ["v_d ∝ E", "v_d ∝ 1/E", "v_d ∝ E²", "Independent"], ans: 0 },
-            { q: "Which rule obeys the Law of Conservation of Charge?", opts: ["Kirchhoff's Loop Rule", "Kirchhoff's Junction Rule", "Ohm's Law", "Lenz's Law"], ans: 1 },
-            { q: "Condition for balanced Wheatstone Bridge with resistors P, Q, R, S?", opts: ["P + Q = R + S", "P / Q = R / S", "P · Q = R · S", "P - Q = R - S"], ans: 1 },
-            { q: "Terminal voltage during discharge of a cell with EMF ε and internal resistance r is:", opts: ["V = ε + Ir", "V = ε - Ir", "V = Ir", "V = ε"], ans: 1 }
-        ];
-
-        let currentQ = 0, correctCount = 0, totalAttempted = 0, currentXP = 0;
-
-        function loadQuestion() {
-            if (currentQ >= quizData.length) {
-                document.getElementById('quiz-box').innerHTML = "<p style='color:green; font-weight:bold;'>🎉 Quiz Completed!</p>";
-                return;
-            }
-            const q = quizData[currentQ];
-            document.getElementById('quiz-question').innerText = `Q${currentQ + 1}: ${q.q}`;
-            let html = "";
-            q.opts.forEach((opt, idx) => {
-                html += `<button class="btn-action" style="background:var(--bg-canvas); color:var(--text-dark); justify-content:flex-start;" onclick="answerQuiz(${idx})">${opt}</button>`;
-            });
-            document.getElementById('quiz-options').innerHTML = html;
-        }
-
-        function answerQuiz(selected) {
-            totalAttempted++;
-            if (selected === quizData[currentQ].ans) {
-                correctCount++;
-                currentXP += 20;
-            }
-            currentQ++;
-            updateStats();
-            loadQuestion();
-        }
-
-        function updateStats() {
-            document.getElementById('stat-completed').innerText = `${totalAttempted} / ${quizData.length}`;
-            const accuracy = totalAttempted > 0 ? Math.round((correctCount / totalAttempted) * 100) : 0;
-            document.getElementById('stat-accuracy').innerText = `${accuracy}%`;
-            document.getElementById('stat-xp').innerText = `${currentXP} XP`;
-        }
-
-        function addTask() {
-            const input = document.getElementById('custom-task-input');
-            if (!input.value.trim()) return;
-            const div = document.createElement('div');
-            div.className = 'task-item';
-            div.innerHTML = `<input type="checkbox" onchange="toggleTaskXP(this)"> <span>${input.value}</span>`;
-            document.getElementById('task-list').appendChild(div);
-            input.value = "";
-        }
-
-        function toggleTaskXP(cb) {
-            if (cb.checked) currentXP += 15;
-            else currentXP = Math.max(0, currentXP - 15);
-            updateStats();
-        }
-
-        function askAI() {
-            const input = document.getElementById('ai-user-input');
-            const q = input.value.trim();
-            if (!q) return;
-
-            const msgs = document.getElementById('ai-messages');
-            msgs.innerHTML += `<div class="msg-bubble msg-user">${q}</div>`;
-            input.value = "";
-
-            let ans = "SIA response: Current electricity covers steady charges in conductors. Refer to Ohm's Law V = IR and Drift Velocity v_d = eEτ/m.";
-            
-            const lower = q.toLowerCase();
-            if (lower.includes("ohm")) ans = "SIA: Ohm's law states V = IR at constant temperature. Resistance R = ρ L / A.";
-            else if (lower.includes("drift")) ans = "SIA: Drift velocity v_d = (e E τ) / m. Current density J = n e v_d.";
-            else if (lower.includes("kirchhoff")) ans = "SIA: Junction Rule = Charge Conservation (ΣI = 0). Loop Rule = Energy Conservation (ΣΔV = 0).";
-
-            setTimeout(() => {
-                msgs.innerHTML += `<div class="msg-bubble msg-ai">${ans}</div>`;
-                msgs.scrollTop = msgs.scrollHeight;
-            }, 400);
-        }
-
         function openSimulation() {
             document.getElementById('phet-iframe').src = "https://phet.colorado.edu/sims/html/circuit-construction-kit-dc/latest/circuit-construction-kit-dc_all.html";
             document.getElementById('sim-modal').style.display = 'flex';
         }
+
         function closeSimulation() {
-            document.getElementById('sim-modal').style.display = 'none';
             document.getElementById('phet-iframe').src = "";
+            document.getElementById('sim-modal').style.display = 'none';
         }
 
         function showBadgesModal() {
             document.getElementById('badges-modal').style.display = 'flex';
+        }
+
+        function addTask() {
+            let taskInput = document.getElementById('custom-task-input');
+            let val = taskInput.value.trim();
+            if (val) {
+                let taskList = document.getElementById('task-list');
+                let div = document.createElement('div');
+                div.className = 'task-item';
+                div.innerHTML = `<input type="checkbox" onchange="toggleTaskXP(this)"> <span>${val}</span>`;
+                taskList.appendChild(div);
+                taskInput.value = '';
+            }
+        }
+
+        function toggleTaskXP(checkbox) {
+            if (checkbox.checked) {
+                xp += 20;
+            } else {
+                xp = Math.max(0, xp - 20);
+            }
+            document.getElementById('stat-xp').innerText = `${xp} XP`;
+        }
+
+        function askAI() {
+            let input = document.getElementById('ai-user-input');
+            let query = input.value.trim();
+            if (!query) return;
+
+            let messages = document.getElementById('ai-messages');
+            let userBubble = document.createElement('div');
+            userBubble.className = 'msg-bubble msg-user';
+            userBubble.innerText = query;
+            messages.appendChild(userBubble);
+
+            input.value = '';
+
+            setTimeout(() => {
+                let aiBubble = document.createElement('div');
+                aiBubble.className = 'msg-bubble msg-ai';
+                
+                let lowerQ = query.toLowerCase();
+                if (lowerQ.includes('ohm')) {
+                    aiBubble.innerText = "Ohm's law states that V = I * R at constant temperature.";
+                } else if (lowerQ.includes('drift')) {
+                    aiBubble.innerText = "Drift velocity is given by v_d = (e * E * τ) / m.";
+                } else {
+                    aiBubble.innerText = "SIA Assistant: Great physics question! Review Chapter 3 formula cards for quick answers.";
+                }
+                messages.appendChild(aiBubble);
+                messages.scrollTop = messages.scrollHeight;
+            }, 500);
         }
     </script>
 </body>

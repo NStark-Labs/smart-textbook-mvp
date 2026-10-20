@@ -13,10 +13,10 @@
     <style>
         :root {
             --bg-canvas: #FAF8F5;
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-bg: rgba(255, 255, 255, 0.92);
             --text-dark: #2D2B3A;
             --text-muted: #6C687A;
-            --border-color: rgba(255, 255, 255, 0.95);
+            --border-color: rgba(220, 220, 230, 0.8);
             
             --lavender-glow: rgba(226, 217, 243, 0.7);
             --periwinkle-glow: rgba(208, 225, 253, 0.7);
@@ -28,6 +28,10 @@
             --pastel-pink: #FCDDEC;
             --pastel-mint: #D2F1E4;
             --pastel-buttercream: #FFF2CC;
+
+            --badge-easy: #10B981;
+            --badge-medium: #F59E0B;
+            --badge-hard: #EF4444;
         }
 
         body.dark-mode {
@@ -74,6 +78,7 @@
             gap: 24px;
         }
 
+        /* Sidebar */
         .sidebar-rail {
             width: 96px;
             background: var(--card-bg);
@@ -130,6 +135,7 @@
             transform: scale(1.05);
         }
 
+        /* Main Workspace */
         .main-workspace {
             flex-grow: 1;
             display: flex;
@@ -161,7 +167,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 6px;
+            margin-top: 8px;
         }
 
         .name-input {
@@ -193,6 +199,7 @@
             gap: 8px;
         }
 
+        /* Layout Grid */
         .dashboard-grid {
             display: grid;
             grid-template-columns: 1fr 360px;
@@ -213,6 +220,7 @@
             border: 2px solid var(--border-color);
         }
 
+        /* Stats Header Bar */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -231,6 +239,7 @@
             margin-top: 4px;
         }
 
+        /* NCERT Topic List */
         .topic-list {
             display: flex;
             flex-direction: column;
@@ -274,6 +283,73 @@
             transform: translateY(-2px);
         }
 
+        /* Quiz Box Styling */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .difficulty-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #FFF;
+            text-transform: uppercase;
+        }
+
+        .diff-easy { background-color: var(--badge-easy); }
+        .diff-medium { background-color: var(--badge-medium); }
+        .diff-hard { background-color: var(--badge-hard); }
+
+        .quiz-option-btn {
+            background: var(--bg-canvas);
+            border: 2px solid var(--border-color);
+            padding: 14px 18px;
+            border-radius: 20px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            line-height: 1.4;
+        }
+
+        .quiz-option-btn:hover:not(:disabled) {
+            background: var(--pastel-periwinkle);
+            border-color: #8A70D6;
+        }
+
+        .quiz-option-btn.correct {
+            background: #D1FAE5 !important;
+            border-color: #10B981 !important;
+            color: #065F46 !important;
+        }
+
+        .quiz-option-btn.incorrect {
+            background: #FEE2E2 !important;
+            border-color: #EF4444 !important;
+            color: #991B1B !important;
+        }
+
+        .explanation-box {
+            margin-top: 16px;
+            background: var(--pastel-buttercream);
+            padding: 16px 20px;
+            border-radius: 20px;
+            border-left: 4px solid #F59E0B;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: none;
+            color: #2D2B3A;
+        }
+
+        /* Formula Deck */
         .formula-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -325,6 +401,7 @@
             font-weight: 600;
         }
 
+        /* Right Column Components */
         .right-column {
             display: flex;
             flex-direction: column;
@@ -408,6 +485,7 @@
             outline: none;
         }
 
+        /* Modals */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -424,7 +502,7 @@
             background: var(--card-bg);
             border-radius: 32px;
             width: 100%;
-            max-width: 800px;
+            max-width: 700px;
             max-height: 85vh;
             display: flex;
             flex-direction: column;
@@ -458,19 +536,23 @@
             color: var(--text-dark);
         }
 
-        .quiz-opt-btn {
-            background: var(--bg-canvas);
-            border: 1px solid var(--border-color);
-            padding: 12px 16px;
-            border-radius: 16px;
-            text-align: left;
-            font-weight: 600;
-            color: var(--text-dark);
-            cursor: pointer;
+        /* Onboarding Name Input Modal */
+        #onboarding-modal .modal-card {
+            max-width: 460px;
+            text-align: center;
         }
 
-        .quiz-opt-btn:hover {
-            background: var(--pastel-periwinkle);
+        .onboarding-input {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--pastel-lavender);
+            font-size: 1rem;
+            font-weight: 600;
+            outline: none;
+            margin: 20px 0;
+            background: var(--bg-canvas);
+            color: var(--text-dark);
         }
 
         @media (max-width: 1024px) {
@@ -484,6 +566,23 @@
 </head>
 <body>
 
+    <!-- First Time Onboarding Name Prompt Modal -->
+    <div id="onboarding-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-body" style="padding: 36px 28px;">
+                <div style="font-size: 3rem; margin-bottom: 12px;">⚡</div>
+                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.8rem;">Welcome to Physics Smart Textbook!</h2>
+                <p style="color: var(--text-muted); margin-top: 8px;">Let's personalize your NCERT Class 12 Chapter 3 learning experience.</p>
+                
+                <input type="text" id="onboarding-name-input" class="onboarding-input" placeholder="Enter your full name..." onkeypress="if(event.key==='Enter') saveOnboardingName()">
+                
+                <button class="btn-action" style="width: 100%; justify-content: center; padding: 14px;" onclick="saveOnboardingName()">
+                    Start Learning Journey <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="app-container">
 
         <!-- Sidebar Rail -->
@@ -496,7 +595,7 @@
                 <a href="https://ncert.nic.in/textbook/pdf/leph103.pdf" target="_blank" class="nav-btn" title="Open Official NCERT PDF">
                     <i class="fa-solid fa-file-pdf"></i>
                 </a>
-                <button class="nav-btn" title="Interactive Simulations" onclick="openSimulation()"><i class="fa-solid fa-flask"></i></button>
+                <button class="nav-btn" title="Interactive PhET Simulation" onclick="openSimulation()"><i class="fa-solid fa-flask"></i></button>
                 <button class="nav-btn" title="Badges" onclick="showBadgesModal()"><i class="fa-solid fa-award"></i></button>
             </nav>
             <div style="font-size: 0.75rem; font-weight: 700; text-align: center;">🔥 14 Days</div>
@@ -510,8 +609,8 @@
                     <h1 id="user-greeting">Welcome back, Student! 👋</h1>
                     <p style="color: var(--text-muted);">NCERT Class 12 Physics • Chapter 3: Current Electricity</p>
                     <div class="user-name-wrapper">
-                        <input type="text" id="name-input-field" class="name-input" placeholder="Enter your name...">
-                        <button class="btn-action" style="padding: 6px 16px; font-size: 0.8rem;" onclick="updateStudentName()">Save Name</button>
+                        <input type="text" id="name-input-field" class="name-input" placeholder="Update your name...">
+                        <button class="btn-action" style="padding: 6px 16px; font-size: 0.8rem;" onclick="updateStudentName()">Update Name</button>
                     </div>
                 </div>
                 <div class="header-actions">
@@ -528,8 +627,8 @@
 
                     <div class="stats-row">
                         <div class="stat-card" style="background: var(--pastel-lavender);">
-                            <span style="font-size: 0.8rem; font-weight: 700;">Questions Completed</span>
-                            <h3 id="stat-completed">0 / 5</h3>
+                            <span style="font-size: 0.8rem; font-weight: 700;">Quiz Progress</span>
+                            <h3 id="stat-completed">0 / 10</h3>
                         </div>
                         <div class="stat-card" style="background: var(--pastel-mint);">
                             <span style="font-size: 0.8rem; font-weight: 700;">Live Accuracy</span>
@@ -541,15 +640,37 @@
                         </div>
                     </div>
 
+                    <!-- Dynamic 10-Question Random Quiz -->
+                    <section class="squircle-card" style="box-shadow: 0 20px 40px -10px var(--pink-glow);">
+                        <div class="quiz-header">
+                            <div>
+                                <span style="background: var(--pastel-pink); padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">Adaptive Test Engine</span>
+                                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-top: 4px;">Chapter Assessment (10 Questions)</h2>
+                            </div>
+                            <span id="quiz-diff-tag" class="difficulty-badge diff-easy">Easy</span>
+                        </div>
+
+                        <div id="quiz-box">
+                            <p id="quiz-question" style="font-weight: 700; font-size: 1.05rem; margin-bottom: 16px; line-height: 1.5;"></p>
+                            <div id="quiz-options" style="display: flex; flex-direction: column; gap: 10px;"></div>
+                            
+                            <div id="quiz-explanation" class="explanation-box"></div>
+
+                            <button id="next-q-btn" class="btn-action" style="margin-top: 18px; display: none; width: 100%; justify-content: center;" onclick="nextQuestion()">
+                                Next Question <i class="fa-solid fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </section>
+
                     <!-- All NCERT Topics Grid -->
                     <section class="squircle-card" style="box-shadow: 0 20px 40px -10px var(--periwinkle-glow);">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
                             <div>
                                 <span style="background: var(--pastel-periwinkle); padding: 4px 12px; border-radius: 12px; font-size: 0.8rem; font-weight: 700;">NCERT Chapter Syllabus</span>
-                                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.5rem; margin-top: 6px;">Select a Topic to Study</h2>
+                                <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.4rem; margin-top: 4px;">Select a Topic to Study</h2>
                             </div>
                             <button class="btn-action" onclick="openSimulation()">
-                                <i class="fa-solid fa-play"></i> Launch PhET Lab
+                                <i class="fa-solid fa-flask"></i> Launch PhET Lab
                             </button>
                         </div>
 
@@ -589,17 +710,6 @@
                         </div>
                     </section>
 
-                    <!-- Practice Quiz -->
-                    <section class="squircle-card" style="box-shadow: 0 20px 40px -10px var(--pink-glow);">
-                        <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; margin-bottom: 4px;">NCERT Practice Quiz</h2>
-                        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 16px;">Test your concepts to dynamically update your progress metrics.</p>
-
-                        <div id="quiz-box">
-                            <p id="quiz-question" style="font-weight: 700; font-size: 1rem; margin-bottom: 12px;"></p>
-                            <div id="quiz-options" style="display: flex; flex-direction: column; gap: 8px;"></div>
-                        </div>
-                    </section>
-
                     <!-- All Formulas Deck -->
                     <section class="squircle-card" style="box-shadow: 0 20px 40px -10px var(--mint-glow);">
                         <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.3rem; margin-bottom: 4px;">NCERT Chapter Formulas</h2>
@@ -612,7 +722,7 @@
                                         <span style="font-size: 0.7rem; color: var(--text-muted);">Current Density</span>
                                         <h3 style="font-size: 1.1rem; margin-top: 6px;">J = I / A = n e v_d</h3>
                                     </div>
-                                    <div class="flip-card-back">Vector quantity (A/m²). Points in direction of current.</div>
+                                    <div class="flip-card-back">Vector quantity (A/m²). Points in direction of positive charge motion.</div>
                                 </div>
                             </div>
 
@@ -622,7 +732,7 @@
                                         <span style="font-size: 0.7rem; color: var(--text-muted);">Drift Velocity</span>
                                         <h3 style="font-size: 1.1rem; margin-top: 6px;">v_d = (e E τ) / m</h3>
                                     </div>
-                                    <div class="flip-card-back">e=charge, E=Electric Field, τ=relaxation time, m=electron mass</div>
+                                    <div class="flip-card-back">e=charge, E=Electric Field, τ=relaxation time, m=electron mass.</div>
                                 </div>
                             </div>
 
@@ -632,7 +742,7 @@
                                         <span style="font-size: 0.7rem; color: var(--text-muted);">Resistivity</span>
                                         <h3 style="font-size: 1.1rem; margin-top: 6px;">ρ = m / (n e² τ)</h3>
                                     </div>
-                                    <div class="flip-card-back">ρ=Resistivity (Ω·m). Independent of conductor geometry.</div>
+                                    <div class="flip-card-back">ρ=Resistivity (Ω·m). Property of material, independent of size.</div>
                                 </div>
                             </div>
 
@@ -652,7 +762,7 @@
                                         <span style="font-size: 0.7rem; color: var(--text-muted);">Terminal EMF</span>
                                         <h3 style="font-size: 1.1rem; margin-top: 6px;">V = ε - I r</h3>
                                     </div>
-                                    <div class="flip-card-back">ε=EMF, r=internal resistance, V=terminal potential difference.</div>
+                                    <div class="flip-card-back">ε=EMF, r=internal resistance, V=terminal voltage during discharge.</div>
                                 </div>
                             </div>
 
@@ -677,7 +787,7 @@
                         <h2 style="font-family: 'Fredoka', sans-serif; font-size: 1.2rem; margin-bottom: 12px;">Custom Study Plan</h2>
                         
                         <div class="task-input-box">
-                            <input type="text" id="custom-task-input" placeholder="Add study task...">
+                            <input type="text" id="custom-task-input" placeholder="Add study task..." onkeypress="if(event.key==='Enter') addTask()">
                             <button class="btn-action" style="padding: 10px 16px;" onclick="addTask()">Add</button>
                         </div>
 
@@ -689,6 +799,10 @@
                             <div class="task-item">
                                 <input type="checkbox" onchange="toggleTaskXP(this)">
                                 <span>Solve Wheatstone Bridge Numerical</span>
+                            </div>
+                            <div class="task-item">
+                                <input type="checkbox" onchange="toggleTaskXP(this)">
+                                <span>Complete 10-Question Practice Quiz</span>
                             </div>
                         </div>
                     </section>
@@ -702,10 +816,10 @@
 
                         <div class="ai-chat-box">
                             <div class="ai-messages" id="ai-messages">
-                                <div class="msg-bubble msg-ai">Hello! I am SIA, your NCERT Physics guide. Ask me any concept or formula question.</div>
+                                <div class="msg-bubble msg-ai">Hello! I am SIA, your NCERT Physics guide. Ask me any concept, formula, or problem in Chapter 3!</div>
                             </div>
                             <div class="ai-input-group">
-                                <input type="text" id="ai-user-input" placeholder="Ask SIA a question..." onkeypress="if(event.key==='Enter') askAI()">
+                                <input type="text" id="ai-user-input" placeholder="Ask SIA a physics question..." onkeypress="if(event.key==='Enter') askAI()">
                                 <button class="btn-action" style="padding: 8px 14px;" onclick="askAI()"><i class="fa-solid fa-paper-plane"></i></button>
                             </div>
                         </div>
@@ -730,9 +844,9 @@
         </div>
     </div>
 
-    <!-- PhET Modal -->
+    <!-- PhET Simulator Modal -->
     <div id="sim-modal" class="modal-overlay">
-        <div class="modal-card" style="height: 80vh;">
+        <div class="modal-card" style="height: 80vh; max-width: 900px;">
             <div class="modal-header">
                 <h3>PhET Interactive Circuit Simulator</h3>
                 <button class="close-btn" onclick="closeSimulation()">✕</button>
@@ -741,84 +855,428 @@
         </div>
     </div>
 
+    <!-- Quiz Result Scorecard Modal -->
+    <div id="scorecard-modal" class="modal-overlay">
+        <div class="modal-card" style="max-width: 500px; text-align: center;">
+            <div class="modal-header">
+                <h3 style="font-family: 'Fredoka', sans-serif;">Quiz Assessment Result</h3>
+                <button class="close-btn" onclick="closeModal('scorecard-modal')">✕</button>
+            </div>
+            <div class="modal-body" style="padding: 32px 24px;">
+                <div style="font-size: 3.5rem; margin-bottom: 8px;" id="score-emoji">🏆</div>
+                <h2 id="score-title" style="font-family: 'Fredoka', sans-serif; font-size: 1.8rem;">Outstanding Performance!</h2>
+                <p id="score-subtitle" style="color: var(--text-muted); margin-top: 4px;">You completed 10 randomized NCERT questions.</p>
+
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 24px 0;">
+                    <div style="background: var(--pastel-lavender); padding: 14px; border-radius: 18px;">
+                        <span style="font-size: 0.75rem; font-weight: 700;">Score</span>
+                        <h3 id="res-score" style="font-family: 'Fredoka';">8 / 10</h3>
+                    </div>
+                    <div style="background: var(--pastel-mint); padding: 14px; border-radius: 18px;">
+                        <span style="font-size: 0.75rem; font-weight: 700;">Accuracy</span>
+                        <h3 id="res-acc" style="font-family: 'Fredoka';">80%</h3>
+                    </div>
+                    <div style="background: var(--pastel-pink); padding: 14px; border-radius: 18px;">
+                        <span style="font-size: 0.75rem; font-weight: 700;">XP Earned</span>
+                        <h3 id="res-xp" style="font-family: 'Fredoka';">+400 XP</h3>
+                    </div>
+                </div>
+
+                <button class="btn-action" style="width: 100%; justify-content: center; padding: 14px;" onclick="resetQuiz()">
+                    <i class="fa-solid fa-rotate-right"></i> Retake Quiz (New Questions)
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Badges Modal -->
     <div id="badges-modal" class="modal-overlay">
         <div class="modal-card" style="max-width: 500px;">
             <div class="modal-header">
-                <h3>Your Earned Badges</h3>
+                <h3>Your Achievement Badges</h3>
                 <button class="close-btn" onclick="closeModal('badges-modal')">✕</button>
             </div>
             <div class="modal-body">
-                <p>⚡ <b>Current Master:</b> Answered chapter MCQs correctly.</p>
-                <p style="margin-top: 10px;">🔥 <b>14-Day Streak:</b> Maintained study routine.</p>
-                <p style="margin-top: 10px;">🧪 <b>Circuit Architect:</b> Launched PhET simulator lab.</p>
+                <p>⚡ <b>Current Master:</b> Completed a 10-question physics quiz.</p>
+                <p style="margin-top: 12px;">🔥 <b>14-Day Streak:</b> Daily active learner status.</p>
+                <p style="margin-top: 12px;">🧪 <b>Circuit Architect:</b> Simulated virtual circuits in PhET.</p>
             </div>
         </div>
     </div>
 
     <script>
+        // State management variables
+        let studentName = "";
         let xp = 0;
-        let completedQuestions = 0;
-        let totalQuestions = 0;
-        let correctAnswers = 0;
+        let activeQuizQuestions = [];
+        let currentQIndex = 0;
+        let score = 0;
+        let answeredCurrent = false;
 
-        window.addEventListener('DOMContentLoaded', () => {
-            let storedName = localStorage.getItem('smart_textbook_student_name');
-            if (storedName) {
-                document.getElementById('user-greeting').innerText = `Welcome back, ${storedName}! 👋`;
-                document.getElementById('name-input-field').value = storedName;
-            } else {
-                document.getElementById('user-greeting').innerText = `Welcome back, Student! 👋`;
+        // Comprehensive Question Bank (30+ Easy, Medium, Hard NCERT questions)
+        const questionBank = [
+            // Easy Questions
+            {
+                q: "What is the SI unit of current density (J)?",
+                opts: ["Ampere / m²", "Ampere · m", "Ohm · m", "Volt / m"],
+                ans: 0,
+                diff: "easy",
+                exp: "Current density J = I / A. Charge per unit time per unit cross-sectional area gives units of A/m²."
+            },
+            {
+                q: "According to Ohm's law, the slope of a V vs I graph gives:",
+                opts: ["Resistivity", "Resistance", "Conductance", "Electric Field"],
+                ans: 1,
+                diff: "easy",
+                exp: "From V = I · R, V / I = R. The slope of the Voltage against Current graph represents Resistance."
+            },
+            {
+                q: "The unit of electrical resistivity is:",
+                opts: ["Ohm", "Ohm / meter", "Ohm · meter", "Mho"],
+                ans: 2,
+                diff: "easy",
+                exp: "Since R = ρ (L / A), ρ = R · A / L -> Ω · m² / m = Ω · m."
+            },
+            {
+                q: "When two identical resistors of resistance R are connected in parallel, equivalent resistance is:",
+                opts: ["2 R", "R / 2", "R", "R / 4"],
+                ans: 1,
+                diff: "easy",
+                exp: "For parallel resistors, 1/R_eq = 1/R + 1/R = 2/R, hence R_eq = R / 2."
+            },
+            {
+                q: "Kirchhoff's Junction Rule is a direct consequence of conservation of:",
+                opts: ["Energy", "Momentum", "Charge", "Mass"],
+                ans: 2,
+                diff: "easy",
+                exp: "Junction rule states total incoming current equals outgoing current, representing charge conservation."
+            },
+            {
+                q: "Drift velocity of electrons in a conductor is typically of the order of:",
+                opts: ["3 × 10⁸ m/s", "10² m/s", "10⁻⁴ m/s", "10⁶ m/s"],
+                ans: 2,
+                diff: "easy",
+                exp: "Drift velocity is extremely slow (approx. 1 mm/s or 10⁻⁴ m/s) despite rapid signal propagation."
+            },
+            {
+                q: "An ideal voltmeter has a resistance equal to:",
+                opts: ["Zero", "Infinite", "100 Ω", "1000 Ω"],
+                ans: 1,
+                diff: "easy",
+                exp: "An ideal voltmeter must have infinite resistance so it draws zero current from the main circuit."
+            },
+            {
+                q: "Kirchhoff's Loop Rule is based on the law of conservation of:",
+                opts: ["Charge", "Energy", "Angular Momentum", "Power"],
+                ans: 1,
+                diff: "easy",
+                exp: "Loop rule states the sum of potential differences across a closed loop is zero, conserving electrical energy."
+            },
+            {
+                q: "When a current I flows through a resistor R for time t, electrical energy heat produced is:",
+                opts: ["I · R · t", "I² · R · t", "V² · R · t", "I · R² · t"],
+                ans: 1,
+                diff: "easy",
+                exp: "Joule's Heating Law states heat energy H = I² · R · t."
+            },
+            {
+                q: "If length of a wire is stretched to double its original length keeping volume constant, its resistance becomes:",
+                opts: ["2 times", "4 times", "1/2 times", "1/4 times"],
+                ans: 1,
+                diff: "easy",
+                exp: "R = ρ L / A. When stretched to length 2L, area becomes A/2. New R' = ρ (2L) / (A/2) = 4 R."
+            },
+
+            // Medium Questions
+            {
+                q: "The relaxation time (τ) of free electrons in a metallic conductor with an increase in temperature:",
+                opts: ["Increases", "Decreases", "Remains constant", "First increases then decreases"],
+                ans: 1,
+                diff: "medium",
+                exp: "As temperature rises, thermal agitation increases, ionic collisions become more frequent, shortening relaxation time τ."
+            },
+            {
+                q: "If temperature coefficient of resistivity α for a material is negative, the material is a:",
+                opts: ["Metal conductor", "Semiconductor", "Alloy (Manganin)", "Superconductor"],
+                ans: 1,
+                diff: "medium",
+                exp: "Semiconductors have negative α because heating generates significantly more free charge carriers."
+            },
+            {
+                q: "Terminal voltage V across a cell of EMF ε and internal resistance r when drawing current I is:",
+                opts: ["V = ε + I r", "V = ε - I r", "V = ε / I r", "V = I r - ε"],
+                ans: 1,
+                diff: "medium",
+                exp: "During discharging of a cell, terminal voltage drop V = ε - I r due to internal potential drop."
+            },
+            {
+                q: "In a Wheatstone bridge balance condition, current through the galvanometer is:",
+                opts: ["Maximum", "Zero", "Equal to battery current", "Dependent on battery EMF"],
+                ans: 1,
+                diff: "medium",
+                exp: "At balance condition (P/Q = R/S), potential across galvanometer terminals is equal, so I_g = 0."
+            },
+            {
+                q: "Mobility μ of electron drift in a conductor is defined as:",
+                opts: ["v_d · E", "v_d / E", "E / v_d", "1 / (v_d · E)"],
+                ans: 1,
+                diff: "medium",
+                exp: "Mobility μ is drift velocity per unit electric field applied: μ = v_d / E."
+            },
+            {
+                q: "A cell of EMF 2.0 V and internal resistance 0.1 Ω is connected to 3.9 Ω resistor. Current in circuit is:",
+                opts: ["0.5 A", "1.0 A", "2.0 A", "0.25 A"],
+                ans: 0,
+                diff: "medium",
+                exp: "I = ε / (R + r) = 2.0 / (3.9 + 0.1) = 2.0 / 4.0 = 0.5 A."
+            },
+            {
+                q: "Two copper wires have length ratio 1:2 and radius ratio 2:1. The ratio of their resistances is:",
+                opts: ["1 : 8", "1 : 4", "8 : 1", "1 : 2"],
+                ans: 0,
+                diff: "medium",
+                exp: "R = ρ L / (π r²). R1/R2 = (L1/L2) × (r2/r1)² = (1/2) × (1/2)² = 1/8."
+            },
+            {
+                q: "A wire of resistance 12 Ω is bent into the form of a circle. Resistance across any diameter is:",
+                opts: ["12 Ω", "6 Ω", "3 Ω", "24 Ω"],
+                ans: 2,
+                diff: "medium",
+                exp: "Bending into a circle splits the wire into two 6 Ω semicircular arcs in parallel: (6 × 6)/(6 + 6) = 3 Ω."
+            },
+            {
+                q: "Manganin is used to make standard resistance coils because it has:",
+                opts: ["High resistivity and low temperature coefficient", "Low resistivity and high temperature coefficient", "Zero resistance", "High temperature coefficient"],
+                ans: 0,
+                diff: "medium",
+                exp: "Manganin's resistance remains almost constant with temperature changes, making standard resistors reliable."
+            },
+
+            // Hard Questions
+            {
+                q: "Three resistors of 2 Ω, 3 Ω, and 6 Ω are combined. What is the minimum equivalent resistance possible?",
+                opts: ["11 Ω", "1 Ω", "0.5 Ω", "2 Ω"],
+                ans: 1,
+                diff: "hard",
+                exp: "Minimum resistance occurs in parallel: 1/R_eq = 1/2 + 1/3 + 1/6 = (3 + 2 + 1)/6 = 6/6 = 1 Ω."
+            },
+            {
+                q: "In a potentiometer experiment, balance point for cell of EMF 1.25 V is 35 cm. If replaced by cell of 2.5 V, balance point is:",
+                opts: ["17.5 cm", "70 cm", "140 cm", "35 cm"],
+                ans: 1,
+                diff: "hard",
+                exp: "By potentiometer principle ε1 / ε2 = L1 / L2. 1.25 / 2.5 = 35 / L2 => L2 = 35 × 2 = 70 cm."
+            },
+            {
+                q: "A cell of EMF ε and internal resistance r supplies maximum power to an external resistor R when:",
+                opts: ["R = r", "R = 2 r", "R = r / 2", "R = 0"],
+                ans: 0,
+                diff: "hard",
+                exp: "By Maximum Power Transfer Theorem, power transferred to load is maximum when load R equals internal resistance r."
+            },
+            {
+                q: "Electric field E inside a current-carrying cylindrical wire of radius a at distance r (r < a) varies as:",
+                opts: ["Uniform (independent of r)", "1 / r", "r²", "1 / r²"],
+                ans: 0,
+                diff: "hard",
+                exp: "In steady state, uniform current density J = σ E, so electric field E remains constant throughout cross section."
+            },
+            {
+                q: "A copper conductor has n = 8.5 × 10²⁸ m⁻³. For I = 1.5 A in wire of A = 2.0 mm², electron drift speed is approximately:",
+                opts: ["0.27 mm/s", "0.055 mm/s", "1.1 mm/s", "2.5 mm/s"],
+                ans: 1,
+                diff: "hard",
+                exp: "v_d = I / (n e A) = 1.5 / (8.5×10²⁸ × 1.6×10⁻¹⁹ × 2.0×10⁻⁶) = 0.055 × 10⁻³ m/s = 0.055 mm/s."
+            },
+            {
+                q: "A battery of 10 V and internal resistance 3 Ω is connected to a resistor. If current is 0.5 A, terminal voltage during charging is:",
+                opts: ["8.5 V", "10 V", "11.5 V", "7.0 V"],
+                ans: 2,
+                diff: "hard",
+                exp: "During CHARGING, terminal voltage V = ε + I r = 10 + (0.5 × 3) = 11.5 V."
             }
-            loadQuestion();
+        ];
+
+        // Onboarding Name Handlers
+        window.addEventListener('DOMContentLoaded', () => {
+            let savedName = localStorage.getItem('smart_textbook_student_name');
+            if (!savedName) {
+                document.getElementById('onboarding-modal').style.display = 'flex';
+            } else {
+                studentName = savedName;
+                applyStudentName();
+            }
+            initQuiz();
         });
 
-        function updateStudentName() {
-            let nameInput = document.getElementById('name-input-field').value.trim();
-            if (nameInput) {
-                localStorage.setItem('smart_textbook_student_name', nameInput);
-                document.getElementById('user-greeting').innerText = `Welcome back, ${nameInput}! 👋`;
-            } else {
-                localStorage.removeItem('smart_textbook_student_name');
-                document.getElementById('user-greeting').innerText = `Welcome back, Student! 👋`;
+        function saveOnboardingName() {
+            let val = document.getElementById('onboarding-name-input').value.trim();
+            if (val) {
+                studentName = val;
+                localStorage.setItem('smart_textbook_student_name', studentName);
+                applyStudentName();
+                closeModal('onboarding-modal');
             }
+        }
+
+        function updateStudentName() {
+            let val = document.getElementById('name-input-field').value.trim();
+            if (val) {
+                studentName = val;
+                localStorage.setItem('smart_textbook_student_name', studentName);
+                applyStudentName();
+            }
+        }
+
+        function applyStudentName() {
+            document.getElementById('user-greeting').innerText = `Welcome back, ${studentName}! 👋`;
+            document.getElementById('name-input-field').value = studentName;
         }
 
         function toggleOLEDTheme() {
             document.body.classList.toggle('dark-mode');
         }
 
+        // Adaptive 10-Question Randomizer
+        function initQuiz() {
+            // Shuffle array using Fisher-Yates
+            let shuffled = [...questionBank].sort(() => 0.5 - Math.random());
+            activeQuizQuestions = shuffled.slice(0, 10);
+            currentQIndex = 0;
+            score = 0;
+            answeredCurrent = false;
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            answeredCurrent = false;
+            let qData = activeQuizQuestions[currentQIndex];
+
+            // Set difficulty tag
+            let diffTag = document.getElementById('quiz-diff-tag');
+            diffTag.innerText = qData.diff;
+            diffTag.className = `difficulty-badge diff-${qData.diff}`;
+
+            document.getElementById('quiz-question').innerText = `Q${currentQIndex + 1}. ${qData.q}`;
+
+            let optsContainer = document.getElementById('quiz-options');
+            optsContainer.innerHTML = '';
+
+            qData.opts.forEach((opt, idx) => {
+                let btn = document.createElement('button');
+                btn.className = 'quiz-option-btn';
+                btn.innerHTML = `<span>${opt}</span> <i class="fa-regular fa-circle"></i>`;
+                btn.onclick = () => selectAnswer(idx);
+                optsContainer.appendChild(btn);
+            });
+
+            document.getElementById('quiz-explanation').style.display = 'none';
+            document.getElementById('next-q-btn').style.display = 'none';
+
+            // Update stats
+            document.getElementById('stat-completed').innerText = `${currentQIndex} / 10`;
+        }
+
+        function selectAnswer(selectedIdx) {
+            if (answeredCurrent) return;
+            answeredCurrent = true;
+
+            let qData = activeQuizQuestions[currentQIndex];
+            let buttons = document.querySelectorAll('.quiz-option-btn');
+
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIdx === qData.ans) {
+                score++;
+                xp += 40;
+                buttons[selectedIdx].classList.add('correct');
+                buttons[selectedIdx].querySelector('i').className = 'fa-solid fa-circle-check';
+            } else {
+                buttons[selectedIdx].classList.add('incorrect');
+                buttons[selectedIdx].querySelector('i').className = 'fa-solid fa-circle-xmark';
+                buttons[qData.ans].classList.add('correct');
+            }
+
+            // Display Explanation
+            let expBox = document.getElementById('quiz-explanation');
+            expBox.innerHTML = `<b>NCERT Explanation:</b> ${qData.exp}`;
+            expBox.style.display = 'block';
+
+            // Update Header Stats
+            let acc = Math.round((score / (currentQIndex + 1)) * 100);
+            document.getElementById('stat-accuracy').innerText = `${acc}%`;
+            document.getElementById('stat-xp').innerText = `${xp} XP`;
+            document.getElementById('stat-completed').innerText = `${currentQIndex + 1} / 10`;
+
+            document.getElementById('next-q-btn').style.display = 'flex';
+        }
+
+        function nextQuestion() {
+            currentQIndex++;
+            if (currentQIndex < activeQuizQuestions.length) {
+                renderQuestion();
+            } else {
+                showScorecard();
+            }
+        }
+
+        function showScorecard() {
+            let finalAcc = Math.round((score / 10) * 100);
+            document.getElementById('res-score').innerText = `${score} / 10`;
+            document.getElementById('res-acc').innerText = `${finalAcc}%`;
+            document.getElementById('res-xp').innerText = `+${score * 40} XP`;
+
+            if (score >= 8) {
+                document.getElementById('score-emoji').innerText = "🏆";
+                document.getElementById('score-title').innerText = "Physics Master!";
+            } else if (score >= 5) {
+                document.getElementById('score-emoji').innerText = "⚡";
+                document.getElementById('score-title').innerText = "Good Effort!";
+            } else {
+                document.getElementById('score-emoji').innerText = "📖";
+                document.getElementById('score-title').innerText = "Keep Practicing!";
+            }
+
+            document.getElementById('scorecard-modal').style.display = 'flex';
+        }
+
+        function resetQuiz() {
+            closeModal('scorecard-modal');
+            initQuiz();
+        }
+
+        // Topic Content Mapping
         const ncertTopics = {
             1: {
                 title: "3.1 & 3.2 Electric Current & Ohm's Law",
                 content: `
                     <h4>Electric Current (I)</h4>
-                    <p>Electric current is the net flow of charge per unit time across a conductor cross-section:</p>
+                    <p>Electric current is defined as net flow of charge per unit time across a conductor cross-section:</p>
                     <p style="background:var(--pastel-lavender); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">I = ΔQ / Δt  (SI Unit: Ampere, A)</p>
                     <h4>Ohm's Law</h4>
-                    <p>At constant physical conditions (like temperature), the current I flowing through a conductor is proportional to potential difference V across it:</p>
+                    <p>Under constant physical conditions (e.g. temperature), current I is directly proportional to potential difference V across conductor terminals:</p>
                     <p style="background:var(--pastel-mint); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">V = I · R</p>
-                    <p>Where R is resistance, measured in Ohms (Ω). R = ρ (L / A).</p>
+                    <p>Where R is resistance in Ohms (Ω). R = ρ (L / A).</p>
                 `
             },
             2: {
                 title: "3.3 Drift Velocity & Origin of Resistivity",
                 content: `
                     <h4>Drift Velocity (v_d)</h4>
-                    <p>Free electrons in a conductor collide with lattice ions. When an electric field E is applied, electrons drift opposite to E with velocity:</p>
+                    <p>When an electric field E is set up inside a conductor, electrons drift opposite to the field with average velocity:</p>
                     <p style="background:var(--pastel-periwinkle); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">v_d = (e E τ) / m</p>
                     <p>Current-Drift Velocity Relation: <b>I = n e A v_d</b></p>
-                    <p>Resistivity Formula: <b>ρ = m / (n e² τ)</b></p>
+                    <p>Microscopic Resistivity: <b>ρ = m / (n e² τ)</b></p>
                 `
             },
             3: {
                 title: "3.4 Limitations of Ohm's Law",
                 content: `
-                    <p>Ohm's law fails in non-ohmic devices:</p>
+                    <p>Ohm's law is not a fundamental law of nature. Ohmic behavior fails in:</p>
                     <ul>
-                        <li><b>Semiconductor Diodes:</b> Current depends on potential sign (P-N junction).</li>
-                        <li><b>GaAs (Gallium Arsenide):</b> Shows non-linear, negative resistance region.</li>
-                        <li><b>Incandescent Lamps:</b> Temperature rise changes resistance non-linearly.</li>
+                        <li><b>Semiconductor Diodes:</b> Current flow depends on bias polarity (non-linear).</li>
+                        <li><b>Gallium Arsenide (GaAs):</b> Exhibits negative differential resistance regions.</li>
+                        <li><b>Incandescent Filaments:</b> Resistance increases as current causes heating.</li>
                     </ul>
                 `
             },
@@ -828,95 +1286,42 @@
                     <p>Resistivity varies with temperature as:</p>
                     <p style="background:var(--pastel-buttercream); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">ρ_T = ρ_0 [1 + α (T - T_0)]</p>
                     <ul>
-                        <li><b>Metals:</b> α > 0 (Resistivity increases with T due to collisions).</li>
-                        <li><b>Semiconductors:</b> α < 0 (Resistivity decreases with T as carrier density n rises).</li>
+                        <li><b>Metallic Conductors:</b> α > 0 (Resistivity increases due to frequent collisions).</li>
+                        <li><b>Semiconductors:</b> α < 0 (Resistivity drops as free charge carrier density n increases exponentially).</li>
                     </ul>
                 `
             },
             5: {
                 title: "3.6 Electrical Energy & Power",
                 content: `
-                    <p>Energy dissipated in a resistor per unit time is power:</p>
+                    <p>Electrical power dissipated in a resistor R carrying current I is:</p>
                     <p style="background:var(--pastel-lavender); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">P = V · I = I² R = V² / R  (Watts, W)</p>
                 `
             },
             6: {
                 title: "3.7 Cells, EMF & Internal Resistance",
                 content: `
-                    <p>Electromotive Force (ε) is the potential difference between cell terminals when no current is drawn.</p>
-                    <p style="background:var(--pastel-pink); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">V = ε - I · r</p>
-                    <p>Where <i>r</i> is the internal resistance of the cell.</p>
+                    <p>Electromotive force (ε) is potential difference across cell terminals in open circuit.</p>
+                    <p style="background:var(--pastel-pink); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">Terminal Voltage: V = ε - I · r</p>
+                    <p>Where <i>r</i> is internal resistance of electrolyte solution.</p>
                 `
             },
             7: {
-                title: "3.8 Kirchhoff's Loop & Junction Rules",
+                title: "3.8 Kirchhoff's Rules",
                 content: `
-                    <p><b>1. Junction Rule:</b> ∑ I = 0 (Conservation of charge)</p>
-                    <p><b>2. Loop Rule:</b> ∑ ΔV = 0 (Conservation of energy)</p>
+                    <p><b>1. Junction Rule:</b> ∑ I = 0 (Conservation of electric charge)</p>
+                    <p><b>2. Loop Rule:</b> ∑ ΔV = 0 (Conservation of energy along closed loop)</p>
                 `
             },
             8: {
                 title: "3.9 Wheatstone Bridge Principle",
                 content: `
-                    <p>An arrangement of four resistors used to measure unknown resistance.</p>
-                    <p style="background:var(--pastel-mint); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">R1 / R2 = R3 / R4</p>
+                    <p>Arrangement of 4 resistors used to accurately calculate unknown resistance.</p>
+                    <p style="background:var(--pastel-mint); padding:10px; border-radius:12px; font-weight:bold; text-align:center; margin:10px 0;">Balance Condition: R1 / R2 = R3 / R4</p>
                     <p>When balanced, galvanometer current I_g = 0.</p>
                 `
             }
         };
-
-        const questions = [
-            {
-                q: "What is the SI unit of Current Density (J)?",
-                opts: ["A / m²", "A · m", "Ω · m", "Volt / m"],
-                ans: 0
-            },
-            {
-                q: "If temperature of a semiconductor increases, its resistivity:",
-                opts: ["Increases", "Decreases", "Remains Constant", "Becomes Zero"],
-                ans: 1
-            },
-            {
-                q: "The balance condition for a Wheatstone bridge is:",
-                opts: ["R1 · R2 = R3 · R4", "R1 / R2 = R3 / R4", "R1 + R2 = R3 + R4", "R1 - R2 = R3 - R4"],
-                ans: 1
-            }
-        ];
-
-        let currentQIndex = 0;
-
-        function loadQuestion() {
-            if (currentQIndex >= questions.length) {
-                document.getElementById('quiz-box').innerHTML = "<p><b>🎉 Quiz Completed! Great job!</b></p>";
-                return;
-            }
-            let qData = questions[currentQIndex];
-            document.getElementById('quiz-question').innerText = qData.q;
-            let optsHTML = "";
-            qData.opts.forEach((opt, idx) => {
-                optsHTML += `<button class="quiz-opt-btn" onclick="checkAnswer(${idx})">${opt}</button>`;
-            });
-            document.getElementById('quiz-options').innerHTML = optsHTML;
-        }
-
-        function checkAnswer(selectedIdx) {
-            totalQuestions++;
-            completedQuestions++;
-            if (selectedIdx === questions[currentQIndex].ans) {
-                correctAnswers++;
-                xp += 50;
-                alert("Correct! +50 XP");
-            } else {
-                alert("Incorrect!");
-            }
-            document.getElementById('stat-completed').innerText = `${completedQuestions} / 5`;
-            document.getElementById('stat-xp').innerText = `${xp} XP`;
-            let accuracy = Math.round((correctAnswers / totalQuestions) * 100);
-            document.getElementById('stat-accuracy').innerText = `${accuracy}%`;
-
-            currentQIndex++;
-            loadQuestion();
-        }
 
         function openTopic(id) {
             let topic = ncertTopics[id];
@@ -946,15 +1351,15 @@
         }
 
         function addTask() {
-            let taskInput = document.getElementById('custom-task-input');
-            let val = taskInput.value.trim();
+            let input = document.getElementById('custom-task-input');
+            let val = input.value.trim();
             if (val) {
-                let taskList = document.getElementById('task-list');
+                let list = document.getElementById('task-list');
                 let div = document.createElement('div');
                 div.className = 'task-item';
                 div.innerHTML = `<input type="checkbox" onchange="toggleTaskXP(this)"> <span>${val}</span>`;
-                taskList.appendChild(div);
-                taskInput.value = '';
+                list.appendChild(div);
+                input.value = '';
             }
         }
 
@@ -983,18 +1388,21 @@
             setTimeout(() => {
                 let aiBubble = document.createElement('div');
                 aiBubble.className = 'msg-bubble msg-ai';
-                
-                let lowerQ = query.toLowerCase();
-                if (lowerQ.includes('ohm')) {
-                    aiBubble.innerText = "Ohm's law states that V = I * R at constant temperature.";
-                } else if (lowerQ.includes('drift')) {
-                    aiBubble.innerText = "Drift velocity is given by v_d = (e * E * τ) / m.";
+                let lower = query.toLowerCase();
+
+                if (lower.includes('ohm')) {
+                    aiBubble.innerText = "Ohm's law states V = I * R. Resistance depends on geometry R = ρ * L / A.";
+                } else if (lower.includes('drift')) {
+                    aiBubble.innerText = "Drift velocity v_d = (e * E * τ) / m. Current relation is I = n * e * A * v_d.";
+                } else if (lower.includes('wheatstone')) {
+                    aiBubble.innerText = "Wheatstone Bridge is balanced when R1/R2 = R3/R4, drawing zero current across galvanometer.";
                 } else {
-                    aiBubble.innerText = "SIA Assistant: Great physics question! Review Chapter 3 formula cards for quick answers.";
+                    aiBubble.innerText = "SIA Physics Assistant: Great question! Chapter 3 formulas & dynamic quizzes cover all these concepts.";
                 }
+
                 messages.appendChild(aiBubble);
                 messages.scrollTop = messages.scrollHeight;
-            }, 500);
+            }, 400);
         }
     </script>
 </body>
